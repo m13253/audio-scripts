@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for i in "$@"
+do
+    echo -e \\e[1\;31m$ ffmpeg -i "$i" "`basename "$i" .flac`.wav"\\e[0m
+    ffmpeg -i "$i" "`basename "$i" .flac`.wav"
+    wav2mp3 "`basename "$i" .flac`.wav"
+    rm -v "`basename "$i" .flac`.wav"
+done

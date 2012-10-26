@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for i in "$@"
+do
+    echo -e \\e[1\;31m$ lame --replaygain-accurate --vbr-old "$i" "`basename "$i" .wav`.mp3"\\e[0m
+    lame --replaygain-accurate --vbr-old "$i" "`basename "$i" .wav`.mp3"
+done
