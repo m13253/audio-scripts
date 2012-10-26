@@ -6,4 +6,12 @@ do
     ffmpeg -i "$i" "`basename "$i" .flac`.wav"
     wav2mp3 "`basename "$i" .flac`.wav"
     rm -v "`basename "$i" .flac`.wav"
+    ARTIST=$(metaflac "$i" --show-tag=ARTIST | sed s/.*=//g)
+    TITLE=$(metaflac "$i" --show-tag=TITLE | sed s/.*=//g)
+    ALBUM=$(metaflac "$i" --show-tag=ALBUM | sed s/.*=//g)
+    GENRE=$(metaflac "$i" --show-tag=GENRE | sed s/.*=//g)
+    TRACKNUMBER=$(metaflac "$i" --show-tag=TRACKNUMBER | sed s/.*=//g)
+    DATE=$(metaflac "$i" --show-tag=DATE | sed s/.*=//g)
+    echo -e \\e[1\;31m$ id3 -t "$TITLE" -T "${TRACKNUMBER:-0}" -a "$ARTIST" -A "$ALBUM" -y "$DATE" -g "${GENRE:-12}" "`basename "$i" .flac`.mp3"\\e[0m
+    id3 -t "$TITLE" -T "${TRACKNUMBER:-0}" -a "$ARTIST" -A "$ALBUM" -y "$DATE" -g "${GENRE:-12}" "`basename "$i" .flac`.mp3"
 done
