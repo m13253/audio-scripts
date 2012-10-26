@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -e
+if [ $# -ne 2 ]
+then
+    echo "Usage: $0 <cue_file> <flac_file>"
+    exit 1
+fi
+cue_file="$1"
+flac_file="$2"
+flac_prefix="`basename "$flac_file" .flac`"
+mkdir -v "$flac_prefix"
+cp -v "$cue_file" "$flac_prefix/track.cue"
+cp -v "$flac_file" "$flac_prefix/track.flac"
+cd "$flac_prefix"
+cuebreakpoints track.cue | shnsplit -o flac track.flac
+cuetag.sh track.cue split-track*.flac
+for i in `seq -w 99`
+do
+    if [ -e "split-track$i.flac" ]
+    then
+        mv -v "split-track$i.flac" "$flac_prefix.$i.flac"
+    else
+        break
+    fi
+done
+rm -v track.cue track.flac
+exit 0
