@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ $# -ne 2 ]
+then
+    echo "Usage: $0 <from_file> <to_file>"
+    exit 1
+fi
+exec sox -S --norm=-1 "$1" "$2"
