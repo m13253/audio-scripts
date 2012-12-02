@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for i in "$@"
+do
+    curl -o /tmp/midi-$$.mid "`echo "$i" | sed -e 's/\/play\.asp\x3fid=/\//g'`" && LC_ALL=C timidity -iat -Os --output-stereo -Aa -a -C0 --reverb=G /tmp/midi-$$.mid; rm /tmp/midi-$$.mid
+done
