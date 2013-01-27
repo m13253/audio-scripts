@@ -2,5 +2,5 @@
 
 for i in "$@"
 do
-    curl -o /tmp/midi-$$.mid "`echo "$i" | sed -e 's/midishow\.com\/midi\/\(.*\)\.html/midishow\.com\/midi\/file\/\1\.mid/' -e 's/gangqinpu\.com\/play\.asp\x3fid=\/\?/gangqinpu\.com\//'`" && LC_ALL=C timidity -iat -Os --output-stereo -Aa -a -C0 --reverb=G --preserve-silence /tmp/midi-$$.mid; rm /tmp/midi-$$.mid
+    curl -o /tmp/midi-$$.mid "`echo -n "$i" | sed -e 's/midishow\.com\/midi\/\(.*\)\.html/midishow\.com\/midi\/file\/\1\.mid/' -e 's/gangqinpu\.com\/play\.asp\x3fid=\/\?/gangqinpu\.com\//'`" && LC_ALL=C timidity -iat -Os --output-stereo -Aa -a -C0 --reverb=G --preserve-silence /tmp/midi-$$.mid; rm /tmp/midi-$$.mid
 done
