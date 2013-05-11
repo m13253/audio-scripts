@@ -1,0 +1,4 @@
+#!/bin/sh
+
+[ -z "$1" ] || timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$(basename "$1" .mid).wav" "$1"
+
