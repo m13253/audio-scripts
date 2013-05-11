@@ -1,4 +1,4 @@
 #!/bin/sh
 
-[ -z "$1" ] || (timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence -o "$(basename "$1" .mid).wav" "$1" && flac -f -8 --replay-gain "$(basename "$1" .mid).wav" && rm "$(basename "$1" .mid).wav")
+[ -z "$1" ] || (timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$(basename "$1" .mid).wav" "$1" && flac -f -8 --replay-gain "$(basename "$1" .mid).wav" && rm "$(basename "$1" .mid).wav")
 
