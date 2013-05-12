@@ -1,8 +1,10 @@
 #!/bin/sh
 
+# Soundfont files in reversed order
 SOUNDFONTS=(
     /usr/share/soundfonts/FluidR3_GM.sf2
     /usr/share/soundfonts/acoustic_grand_piano_ydp_20080910.sf2
 )
-[ -z "$1" ] || fluidsynth -n -o audio.driver=file -o audio.file.name="$(basename "$1" .mid).wav" -o synth.min-note-length=0 -o synth.parallel-render=False -o synth.polyphony=65535 $SOUNDFONTS "$1"
+
+[ -z "$1" ] || fluidsynth -i -n -o audio.driver=file -o audio.file.name="$(basename "$1" .mid).wav" -o synth.min-note-length=0 -o synth.parallel-render=False -o synth.polyphony=65535 "${SOUNDFONTS[@]}" "$1"
 
