@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "the wav file will be created at ./fluidsynth.wav"
+echo
+
+[ -z "$1" ] || fluidsynth -l -i -a file -z 2048 /usr/share/sounds/sf2/FluidR3_GM.sf2 /usr/share/sounds/sf2/FluidR3_GS.sf2 $1
+
+echo
+echo "Converted!"
