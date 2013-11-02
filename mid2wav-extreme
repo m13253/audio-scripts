@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Timidity++ can not handle MIDI files with more than 131071 events, so we will
+# use FluidSynth for those files.
+# Parallel rendering is disabled since the kind of files mentioned above often
+# have a huge number of notes playing at the same time and parallel rendering
+# may often fail. (But it will be much slower.)
+
 # Soundfont files in reversed order
 SOUNDFONTS=(
     /usr/share/soundfonts/FluidR3_GS.sf2
