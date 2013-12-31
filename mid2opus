@@ -1,0 +1,4 @@
+#!/bin/sh
+
+[ -z "$1" ] || (timidity --output-stereo -s 48000 -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$(basename "$1" .mid).wav" "$1" && opusenc --bitrate 96 "$(basename "$1" .mid).wav" "$(basename "$1" .mid).opus" && rm "$(basename "$1" .mid).wav")
+
