@@ -1,4 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
-[ -z "$1" ] || (timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$(basename "$1" .mid).wav" "$1" && lame -h --replaygain-accurate --vbr-old "$(basename "$1" .mid).wav" "$(basename "$1" .mid).mp3" && rm "$(basename "$1" .mid).wav")
-
+if [ "$#" -lt 1 ]
+then
+    echo "Usage: $0 INPUT.mid [...]" >&2
+    exit 1
+fi
+for i in "$@"
+do
+    TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
+    timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" "$i" &&
+    lame -b 128 -h --replaygain-accurate "$TEMPFILE" "$(dirname "$i")/$(basename "$i" .mid).mp3"
+    rm "$TEMPFILE"
+done

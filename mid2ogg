@@ -1,4 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
-[ -z "$1" ] || (timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$(basename "$1" .mid).wav" "$1" && oggenc -q 3 -o "$(basename "$1" .mid).ogg" "$(basename "$1" .mid).wav" && rm "$(basename "$1" .mid).wav")
-
+if [ "$#" -lt 1 ]
+then
+    echo "Usage: $0 INPUT.mid [...]" >&2
+    exit 1
+fi
+for i in "$@"
+do
+    TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
+    timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" "$i" &&
+    oggenc -q 3 -o "$(dirname "$i")/$(basename "$i" .mid).ogg" "$TEMPFILE"
+    rm "$TEMPFILE"
+done

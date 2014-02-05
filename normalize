@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ $# -ne 2 ]
+if [ "$#" -ne 2 ]
 then
     echo "Usage: $0 <from_file> <to_file>"
     exit 1

@@ -1,7 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
+if [ "$#" -lt 1 ]
+then
+    echo "Usage: $0 INPUT.wav [...]" >&2
+    exit 1
+fi
 for i in "$@"
 do
-    echo -e \\e[1\;31m$ lame --replaygain-accurate --vbr-old "$i" "`basename "$i" .wav`.mp3"\\e[0m
-    lame --replaygain-accurate --vbr-old "$i" "`basename "$i" .wav`.mp3"
+    echo -e \\e[1\;31m$ lame -b 128 -h --replaygain-accurate "$i" "$(dirname "$i")/$(basename "$i" .wav).mp3"\\e[0m
+    lame -b 128 -h --replaygain-accurate "$i" "$(dirname "$i")/$(basename "$i" .wav).mp3"
 done
