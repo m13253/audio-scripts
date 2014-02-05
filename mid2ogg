@@ -8,7 +8,7 @@ fi
 for i in "$@"
 do
     TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
-    timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" "$i" &&
-    oggenc -q 3 -o "$(dirname "$i")/$(basename "$i" .mid).ogg" "$TEMPFILE"
+    timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" -- "$i" &&
+    oggenc -q 3 -o "$(dirname -- "$i")/$(basename -- "$i" .mid).ogg" -- "$TEMPFILE"
     rm "$TEMPFILE"
 done

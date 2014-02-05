@@ -8,7 +8,7 @@ fi
 for i in "$@"
 do
     TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
-    timidity --output-stereo -s 48000 -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" "$i" &&
-    opusenc --bitrate 96 "$TEMPFILE" "$(dirname "$i")/$(basename "$i" .mid).opus"
+    timidity --output-stereo -s 48000 -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" -- "$i" &&
+    opusenc --bitrate 96 -- "$TEMPFILE" "$(dirname -- "$i")/$(basename -- "$i" .mid).opus"
     rm "$TEMPFILE"
 done

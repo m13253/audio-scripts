@@ -8,7 +8,7 @@ fi
 for i in "$@"
 do
     TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
-    timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" "$i" &&
-    flac -f -8 --replay-gain -o "$(dirname "$i")/$(basename "$i" .mid).flac" "$TEMPFILE"
+    timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$TEMPFILE" -- "$i" &&
+    flac -f -8 --replay-gain -o "$(dirname -- "$i")/$(basename -- "$i" .mid).flac" -- "$TEMPFILE"
     rm "$TEMPFILE"
 done

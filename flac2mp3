@@ -7,18 +7,18 @@ then
 fi
 for i in "$@"
 do
-    TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
-    echo -e \\e[1\;31m$ flac -d -f -o "$TEMPFILE" "$i"\\e[0m
-    flac -d -f -o "$TEMPFILE" "$i"
-    echo -e \\e[1\;31m$ lame -b 128 -h --replaygain-accurate "$TEMPFILE" "$(dirname "$i")/$(basename "$i" .flac).mp3"\\e[0m
-    lame -b 128 -h --replaygain-accurate "$TEMPFILE" "$(dirname "$i")/$(basename "$i" .flac).mp3"
+    TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) || continue
+    echo -e \\e[1\;31m$ flac -d -f -o "$TEMPFILE" -- "$i"\\e[0m
+    flac -d -f -o "$TEMPFILE" -- "$i" || continue
+    echo -e \\e[1\;31m$ lame -b 128 -h --replaygain-accurate "$TEMPFILE" "$(dirname -- "$i")/$(basename -- "$i" .flac).mp3"\\e[0m
+    lame -b 128 -h --replaygain-accurate "$TEMPFILE" "$(dirname -- "$i")/$(basename -- "$i" .flac).mp3"
     rm -v "$TEMPFILE"
-    ARTIST="$(metaflac "$i" --show-tag=ARTIST | sed -e 's/.*=//g')"
-    TITLE="$(metaflac "$i" --show-tag=TITLE | sed -e 's/.*=//g')"
-    ALBUM="$(metaflac "$i" --show-tag=ALBUM | sed -e 's/.*=//g')"
-    GENRE="$(metaflac "$i" --show-tag=GENRE | sed -e 's/.*=//g')"
-    TRACKNUMBER="$(metaflac "$i" --show-tag=TRACKNUMBER | sed -e 's/.*=//g')"
-    DATE="$(metaflac "$i" --show-tag=DATE | sed -e 's/.*=//g')"
-    echo -e \\e[1\;31m$ id3 -t "$TITLE" -T "${TRACKNUMBER:-0}" -a "$ARTIST" -A "$ALBUM" -y "$DATE" -g "${GENRE:-12}" "$(dirname "$i")/$(basename "$i" .flac).mp3"\\e[0m
-    id3 -t "$TITLE" -T "${TRACKNUMBER:-0}" -a "$ARTIST" -A "$ALBUM" -y "$DATE" -g "${GENRE:-12}" "$(dirname "$i")/$(basename "$i" .flac).mp3"
+    ARTIST="$(metaflac -- "$i" --show-tag=ARTIST | sed -e 's/.*=//g')"
+    TITLE="$(metaflac -- "$i" --show-tag=TITLE | sed -e 's/.*=//g')"
+    ALBUM="$(metaflac -- "$i" --show-tag=ALBUM | sed -e 's/.*=//g')"
+    GENRE="$(metaflac -- "$i" --show-tag=GENRE | sed -e 's/.*=//g')"
+    TRACKNUMBER="$(metaflac -- "$i" --show-tag=TRACKNUMBER | sed -e 's/.*=//g')"
+    DATE="$(metaflac -- "$i" --show-tag=DATE | sed -e 's/.*=//g')"
+    echo -e \\e[1\;31m$ id3 -t "$TITLE" -T "${TRACKNUMBER:-0}" -a "$ARTIST" -A "$ALBUM" -y "$DATE" -g "${GENRE:-12}" -- "$(dirname -- "$i")/$(basename -- "$i" .flac).mp3"\\e[0m
+    id3 -t "$TITLE" -T "${TRACKNUMBER:-0}" -a "$ARTIST" -A "$ALBUM" -y "$DATE" -g "${GENRE:-12}" -- "$(dirname -- "$i")/$(basename -- "$i" .flac).mp3"
 done

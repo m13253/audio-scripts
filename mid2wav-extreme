@@ -20,6 +20,6 @@ then
 fi
 for i in "$@"
 do
-    fluidsynth -i -n -o audio.driver=file -o audio.file.name="$(dirname "$i")/$(basename "$i" .mid).wav" -o synth.min-note-length=0 -o synth.parallel-render=False -o synth.polyphony=65535 "${SOUNDFONTS[@]}" "$i"
+    fluidsynth -i -n -o audio.driver=file -o audio.file.name="$(dirname -- "$i")/$(basename -- "$i" .mid).wav" -o synth.min-note-length=0 -o synth.parallel-render=False -o synth.polyphony=65535 -- "${SOUNDFONTS[@]}" "$i"
 done
 

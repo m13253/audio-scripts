@@ -7,6 +7,6 @@ then
 fi
 for i in "$@"
 do
-    echo -e \\e[1\;31m$ lame -b 128 -h --replaygain-accurate "$i" "$(dirname "$i")/$(basename "$i" .wav).mp3"\\e[0m
-    lame -b 128 -h --replaygain-accurate "$i" "$(dirname "$i")/$(basename "$i" .wav).mp3"
+    echo -e \\e[1\;31m$ lame -b 128 -h --replaygain-accurate -- "$i" "$(dirname -- "$i")/$(basename -- "$i" .wav).mp3"\\e[0m
+    lame -b 128 -h --replaygain-accurate "$i" "$(dirname -- "$i")/$(basename -- "$i" .wav).mp3"
 done
