@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Soundfont files in reversed order
+SOUNDFONTS=(
+    "/usr/share/sounds/sf2/FluidR3_GS.sf2"
+    "/usr/share/sounds/sf2/FluidR3_GM.sf2"
+    "/usr/share/sounds/sf2/Timbres Of Heaven GM_GS_XG_SFX V 3.4 Final.sf2"
+)
+
 if [ "$#" -lt 1 ]
 then
     echo "Usage: $0 INPUT.mid [...]" >&2
@@ -7,5 +14,5 @@ then
 fi
 for i in "$@"
 do
-    timidity --output-stereo -OwS -Aa -a -C0 --reverb=G --preserve-silence --no-polyphony-reduction -o "$(dirname -- "$i")/$(basename -- "$i" .mid).wav" -- "$i"
+    fluidsynth -r 48000 -O float -F "$(dirname -- "$i")/$(basename -- "$i" .mid).wav" -- "${SOUNDFONTS[@]}" "$i"
 done
