@@ -15,7 +15,7 @@ fi
 for i in "$@"
 do
     TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
-    fluidsynth -r 48000 -O float -F "$TEMPFILE" -- "${SOUNDFONTS[@]}" "$i" &&
+    fluidsynth -l -r 48000 -O float -F "$TEMPFILE" -- "${SOUNDFONTS[@]}" "$i" &&
     oggenc -q 3 -o "$(dirname -- "$i")/$(basename -- "$i" .mid).ogg" -- "$TEMPFILE"
     rm "$TEMPFILE"
 done

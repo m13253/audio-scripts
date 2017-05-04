@@ -20,5 +20,5 @@ then
 fi
 for i in "$@"
 do
-    fluidsynth -r 48000 -O float -o synth.min-note-length=0 -o synth.parallel-render=False -o synth.polyphony=65535 -F "$(dirname -- "$i")/$(basename -- "$i" .mid).wav" -- "${SOUNDFONTS[@]}" "$i"
+    fluidsynth -l -r 48000 -O float -o synth.min-note-length=0 -o synth.parallel-render=False -o synth.polyphony=65535 -F "$(dirname -- "$i")/$(basename -- "$i" .mid).wav" -- "${SOUNDFONTS[@]}" "$i"
 done

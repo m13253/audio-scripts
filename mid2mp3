@@ -15,7 +15,7 @@ fi
 for i in "$@"
 do
     TEMPFILE=$(mktemp --tmpdir tmp.XXXXXXXXXX.wav) &&
-    fluidsynth -r 48000 -O float -F "$TEMPFILE" -- "${SOUNDFONTS[@]}" "$i" &&
+    fluidsynth -l -r 48000 -O float -F "$TEMPFILE" -- "${SOUNDFONTS[@]}" "$i" &&
     lame -b 128 -h --replaygain-accurate "$TEMPFILE" "$(dirname -- "$i")/$(basename -- "$i" .mid).mp3"
     rm "$TEMPFILE"
 done
